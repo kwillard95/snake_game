@@ -10,12 +10,6 @@ current_direction = ""
 
 segments = []
 
-
-# snake = t.Turtle(shape="square")
-# snake.color("white")
-# snake.penup()
-# snake.shapesize(stretch_len=3)
-
 def create_snake_segment():
     segment = t.Turtle(shape="square")
     segment.color("white")
@@ -59,33 +53,8 @@ def shift_snake(direction):
                 segments[seg_num].goto(new_x, new_y)
             first_segment = segments[0]
             first_segment.setheading(HEADING_VALUES[direction])
-            first_segment.forward(10)
+            first_segment.forward(20)
     return move
-
-
-def move_snake(direction):
-    def move():
-        global current_direction
-        if current_direction == direction:
-            return
-
-        for segment in screen.turtles():
-            if direction == "right":
-                segment.setheading(0)
-            elif direction == "left":
-                segment.setheading(180)
-            elif direction == "up":
-                segment.setheading(90)
-            elif direction == "down":
-                segment.setheading(270)
-            current_direction = direction
-        while True:
-            for segment in screen.turtles():
-                segment.forward(10)
-                screen.update()
-
-    return move
-
 
 def start_game():
     total_segments = 3
