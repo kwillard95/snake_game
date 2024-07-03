@@ -1,5 +1,4 @@
 import turtle as t
-import time
 
 HEADING_VALUES = {
     "right": 0,
@@ -11,7 +10,7 @@ HEADING_VALUES = {
 
 class Snake:
     def __init__(self, screen):
-        self.game_running = False
+        self.snake_running = False
         self.segments = []
         self.screen = screen
 
@@ -33,24 +32,39 @@ class Snake:
             self.create_snake_segment()
         self.screen.update()
 
-    def shift_snake(self, direction):
-        def move():
-            if not self.game_running:
-                self.game_running = True
-            start_range = len(self.segments) - 1
-            while self.game_running:
-                time.sleep(0.05)
-                self.screen.update()
-                for seg_num in range(start_range, 0, -1):
-                    previous_seg = self.segments[seg_num - 1]
-                    new_x = previous_seg.xcor()
-                    new_y = previous_seg.ycor()
-                    self.segments[seg_num].goto(new_x, new_y)
-                first_segment = self.segments[0]
-                first_segment.setheading(HEADING_VALUES[direction])
-                first_segment.forward(20)
+    def up(self):
+        if not self.snake_running:
+            self.snake_running = True
+        first_segment = self.segments[0]
+        first_segment.setheading(HEADING_VALUES["up"])
 
-        return move
+    def down(self):
+        if not self.snake_running:
+            self.snake_running = True
+        first_segment = self.segments[0]
+        first_segment.setheading(HEADING_VALUES["down"])
+
+    def left(self):
+        if not self.snake_running:
+            self.snake_running = True
+        first_segment = self.segments[0]
+        first_segment.setheading(HEADING_VALUES["left"])
+
+    def right(self):
+        if not self.snake_running:
+            self.snake_running = True
+        first_segment = self.segments[0]
+        first_segment.setheading(HEADING_VALUES["right"])
+
+    def move(self):
+        start_range = len(self.segments) - 1
+        for seg_num in range(start_range, 0, -1):
+            previous_seg = self.segments[seg_num - 1]
+            new_x = previous_seg.xcor()
+            new_y = previous_seg.ycor()
+            self.segments[seg_num].goto(new_x, new_y)
+        first_segment = self.segments[0]
+        first_segment.forward(20)
 
     def start_game(self):
         total_segments = 3
@@ -58,7 +72,7 @@ class Snake:
             self.add_snake_segment()
 
         self.screen.listen()
-        self.screen.onkeyrelease(self.shift_snake("right"), "Right")
-        self.screen.onkeyrelease(self.shift_snake("left"), "Left")
-        self.screen.onkeyrelease(self.shift_snake("up"), "Up")
-        self.screen.onkeyrelease(self.shift_snake("down"), "Down")
+        self.screen.onkeyrelease(self.right, "Right")
+        self.screen.onkeyrelease(self.left, "Left")
+        self.screen.onkeyrelease(self.up, "Up")
+        self.screen.onkeyrelease(self.down, "Down")
