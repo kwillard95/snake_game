@@ -1,5 +1,5 @@
 import turtle as t
-from constants import NUMBER_OF_STEPS, HEADING_VALUES
+from constants import NUMBER_OF_STEPS, HEADING_VALUES, WINDOW_PADDING
 
 
 class Snake:
@@ -25,7 +25,21 @@ class Snake:
         else:
             self.create_snake_segment()
 
+    def check_stop_snake(self):
+        half_window_width = (self.screen.window_width() / 2) - WINDOW_PADDING
+        half_window_height = (self.screen.window_height() / 2) - WINDOW_PADDING
+        head_of_snake_pos = self.segments[0].pos()
+        if abs(head_of_snake_pos[0]) >= half_window_width or abs(head_of_snake_pos[1]) >= half_window_height:
+            return True
+        head_of_snake = self.segments[0]
+        for seg_num in range(1, len(self.segments)):
+            if self.segments[seg_num].distance(head_of_snake) <= 10:
+                return True
+
     def move(self):
+        if self.check_stop_snake():
+            self.snake_running = False
+            return
         start_range = len(self.segments) - 1
         for seg_num in range(start_range, 0, -1):
             previous_seg = self.segments[seg_num - 1]
@@ -72,6 +86,9 @@ class Snake:
             return self.up
         if direction == 'down':
             return self.down
+
+
+
 
     def start_game(self):
         total_segments = 3

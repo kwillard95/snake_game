@@ -29,6 +29,9 @@ def start_game():
         if snake.snake_running:
             snake.move()
             is_snake_eating = snake.segments[0].distance(food) <= 20
+            snake.check_stop_snake()
+            if not snake.snake_running:
+                game_on = False
             if is_snake_eating:
                 total_score += 1
                 print("POINT ADDED ", total_score)
