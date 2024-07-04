@@ -1,11 +1,5 @@
 import turtle as t
-
-HEADING_VALUES = {
-    "right": 0,
-    "left": 180,
-    "up": 90,
-    "down": 270
-}
+from constants import NUMBER_OF_STEPS, HEADING_VALUES
 
 
 class Snake:
@@ -27,34 +21,9 @@ class Snake:
             segment = self.create_snake_segment()
             last_segment_index = num_of_snakes - 1
             last_turtle_pos = self.segments[last_segment_index].xcor()
-            segment.setx(last_turtle_pos - 20)
+            segment.setx(last_turtle_pos - NUMBER_OF_STEPS)
         else:
             self.create_snake_segment()
-        self.screen.update()
-
-    def up(self):
-        if not self.snake_running:
-            self.snake_running = True
-        first_segment = self.segments[0]
-        first_segment.setheading(HEADING_VALUES["up"])
-
-    def down(self):
-        if not self.snake_running:
-            self.snake_running = True
-        first_segment = self.segments[0]
-        first_segment.setheading(HEADING_VALUES["down"])
-
-    def left(self):
-        if not self.snake_running:
-            self.snake_running = True
-        first_segment = self.segments[0]
-        first_segment.setheading(HEADING_VALUES["left"])
-
-    def right(self):
-        if not self.snake_running:
-            self.snake_running = True
-        first_segment = self.segments[0]
-        first_segment.setheading(HEADING_VALUES["right"])
 
     def move(self):
         start_range = len(self.segments) - 1
@@ -64,7 +33,45 @@ class Snake:
             new_y = previous_seg.ycor()
             self.segments[seg_num].goto(new_x, new_y)
         first_segment = self.segments[0]
-        first_segment.forward(20)
+        first_segment.forward(NUMBER_OF_STEPS)
+
+    def up(self):
+        head_of_snake = self.segments[0]
+        if head_of_snake.heading() != HEADING_VALUES['down']:
+            first_segment = self.segments[0]
+            first_segment.setheading(HEADING_VALUES["up"])
+        self.snake_running = True
+
+    def down(self):
+        head_of_snake = self.segments[0]
+        if head_of_snake.heading() != HEADING_VALUES['up']:
+            first_segment = self.segments[0]
+            first_segment.setheading(HEADING_VALUES["down"])
+        self.snake_running = True
+
+    def left(self):
+        head_of_snake = self.segments[0]
+        if head_of_snake.heading() != HEADING_VALUES['right'] or not self.snake_running:
+            first_segment = self.segments[0]
+            first_segment.setheading(HEADING_VALUES["left"])
+        self.snake_running = True
+
+    def right(self):
+        head_of_snake = self.segments[0]
+        if head_of_snake.heading() != HEADING_VALUES['left']:
+            first_segment = self.segments[0]
+            first_segment.setheading(HEADING_VALUES["right"])
+        self.snake_running = True
+
+    def shift_snake(self, direction):
+        if direction == 'right':
+            return self.right
+        elif direction == 'left':
+            return self.left
+        if direction == 'up':
+            return self.up
+        if direction == 'down':
+            return self.down
 
     def start_game(self):
         total_segments = 3
@@ -72,7 +79,7 @@ class Snake:
             self.add_snake_segment()
 
         self.screen.listen()
-        self.screen.onkeyrelease(self.right, "Right")
-        self.screen.onkeyrelease(self.left, "Left")
-        self.screen.onkeyrelease(self.up, "Up")
-        self.screen.onkeyrelease(self.down, "Down")
+        self.screen.onkeyrelease(self.shift_snake('right'), "Right")
+        self.screen.onkeyrelease(self.shift_snake('left'), "Left")
+        self.screen.onkeyrelease(self.shift_snake('up'), "Up")
+        self.screen.onkeyrelease(self.shift_snake('down'), "Down")

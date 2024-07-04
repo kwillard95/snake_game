@@ -1,20 +1,20 @@
 import turtle as t
 import random as r
+from constants import WINDOW_PADDING
 
 
-class Food:
-    def __init__(self, screen):
-        self.food_runner = t.Turtle()
-        self.food_position = None
-        self.food_present = False
-        self.screen = screen
-
-        self.food_runner.penup()
-        self.food_runner.color("red")
+class Food(t.Turtle):
+    def __init__(self):
+        super().__init__()
+        self.shape("circle")
+        self.penup()
+        self.color("red")
+        self.turtlesize(.5)
+        self.goto(self.generate_random_coordinates()[0],self.generate_random_coordinates()[1])
 
     def generate_random_coordinates(self):
-        half_window_width = (self.screen.window_width() / 2) - 20
-        half_window_height = (self.screen.window_height() / 2) - 20
+        half_window_width = (self.screen.window_width() / 2) - WINDOW_PADDING
+        half_window_height = (self.screen.window_height() / 2) - WINDOW_PADDING
         x_cor = r.uniform(half_window_width * -1, half_window_width)
         y_cor = r.uniform(half_window_height * -1, half_window_height)
         coordinates = (x_cor, y_cor)
@@ -22,18 +22,8 @@ class Food:
 
     @staticmethod
     def generate_random_time():
-        return r.randint(3000, 10000)
+        return r.randint(5000, 10000)
 
-    def remove_food(self):
-        self.food_runner.clear()
-        self.food_position = None
-        self.food_present = False
-
-    def place_food(self):
-        if self.food_position is not None:
-            self.remove_food()
+    def reposition_food(self):
         coordinates = self.generate_random_coordinates()
-        self.food_runner.goto(coordinates)
-        self.food_position = coordinates
-        self.food_runner.dot(20, "red")
-        self.screen.ontimer(self.place_food, self.generate_random_time())
+        self.goto(coordinates[0], coordinates[1])
