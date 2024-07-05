@@ -17,10 +17,10 @@ class Scoreboard(t.Turtle):
     def show_score(self):
         self.clear()
         self.goto(0, self.window_height - WINDOW_PADDING)
-        self.write(f"Total score: {self.current_score}",False, "center", FONT_STYLE)
+        self.write(f"Total score: {self.current_score}", False, "center", FONT_STYLE)
 
     def display_round_over(self):
-        self.goto(0,0)
+        self.goto(0, 0)
         self.write("GAME OVER.", False, "center", FONT_STYLE)
         self.rounds.append(self.current_score)
         self.current_score = 0

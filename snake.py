@@ -32,15 +32,13 @@ class Snake:
         else:
             self.create_snake_segment((0, 0))
 
-
-
     def check_stop_snake(self):
         head_of_snake_pos = self.segments[0].pos()
         if abs(head_of_snake_pos[0]) >= self.window_width or abs(head_of_snake_pos[1]) >= self.window_height:
             return True
         head_of_snake = self.segments[0]
-        for seg_num in range(1, len(self.segments)):
-            if self.segments[seg_num].distance(head_of_snake) < 10:
+        for segment in self.segments[1:]:
+            if segment.distance(head_of_snake) < 10:
                 # A hack to override the collision of snake with its tail when the first left is taken due to the nature
                 # of how the snake moves
                 if self.first_left and head_of_snake.heading() == HEADING_VALUES['left']:

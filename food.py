@@ -10,7 +10,7 @@ class Food(t.Turtle):
         self.penup()
         self.color("red")
         self.turtlesize(.5)
-        self.goto(self.generate_random_coordinates()[0],self.generate_random_coordinates()[1])
+        self.goto(self.generate_random_coordinates()[0], self.generate_random_coordinates()[1])
 
     def generate_random_coordinates(self):
         half_window_width = (self.screen.window_width() / 2) - WINDOW_PADDING
