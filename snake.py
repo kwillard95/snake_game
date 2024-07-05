@@ -1,5 +1,5 @@
 import turtle as t
-from constants import NUMBER_OF_STEPS, HEADING_VALUES, WINDOW_PADDING
+from constants import NUMBER_OF_STEPS, HEADING_VALUES
 
 
 class Snake:
