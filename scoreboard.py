@@ -25,7 +25,6 @@ class Scoreboard(t.Turtle):
         self.rounds.append(self.current_score)
         self.current_score = 0
 
-
     def display_game_over_countdown(self, seconds):
         def countdown():
             nonlocal seconds
