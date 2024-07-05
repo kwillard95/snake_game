@@ -12,22 +12,27 @@ class Snake:
         self.window_width = window_width
         self.window_height = window_height
 
-    def create_snake_segment(self):
+    def create_snake_segment(self, position):
         segment = t.Turtle(shape="square")
         segment.color("white")
         segment.penup()
+        segment.goto(position)
         self.segments.append(segment)
-        return segment
 
     def add_snake_segment(self):
         num_of_snakes = len(self.segments)
         if num_of_snakes > 0:
-            segment = self.create_snake_segment()
             last_segment_index = num_of_snakes - 1
-            last_turtle_pos = self.segments[last_segment_index].xcor()
-            segment.setx(last_turtle_pos - NUMBER_OF_STEPS)
+            last_turtle_pos = self.segments[last_segment_index].pos()
+            if not self.snake_running:
+                position = (last_turtle_pos[0] - NUMBER_OF_STEPS, last_turtle_pos[1])
+                self.create_snake_segment(position)
+            else:
+                self.create_snake_segment(last_turtle_pos)
         else:
-            self.create_snake_segment()
+            self.create_snake_segment((0, 0))
+
+
 
     def check_stop_snake(self):
         head_of_snake_pos = self.segments[0].pos()
@@ -97,6 +102,7 @@ class Snake:
     def start_game(self):
         total_segments = 3
         for _ in range(1, total_segments + 1):
+            print(self.segments)
             self.add_snake_segment()
 
         self.screen.listen()
