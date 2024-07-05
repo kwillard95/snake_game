@@ -5,6 +5,8 @@ from constants import NUMBER_OF_STEPS, HEADING_VALUES
 class Snake:
     def __init__(self, screen, window_width, window_height):
         self.snake_running = False
+        # A bit of a hack to override check_stop_snake when the snake moves from right to left initially
+        self.first_left = True
         self.segments = []
         self.screen = screen
         self.window_width = window_width
@@ -33,7 +35,12 @@ class Snake:
             return True
         head_of_snake = self.segments[0]
         for seg_num in range(1, len(self.segments)):
-            if self.segments[seg_num].distance(head_of_snake) <= 10:
+            if self.segments[seg_num].distance(head_of_snake) < 10:
+                # A hack to override the collision of snake with its tail when the first left is taken due to the nature
+                # of how the snake moves
+                if self.first_left and head_of_snake.heading() == HEADING_VALUES['left']:
+                    self.first_left = False
+                    return False
                 return True
 
     def move(self):

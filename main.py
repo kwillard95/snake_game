@@ -14,7 +14,6 @@ def set_screen(current_screen):
 
 
 def end_game():
-    print('hRRE')
     scoreboard.display_game_over()
     screen.ontimer(screen.bye, 5000)
     screen.listen()
@@ -38,7 +37,6 @@ def start_game():
             if snake.snake_running:
                 snake.move()
                 is_snake_eating = snake.segments[0].distance(food) <= 20
-                snake.check_stop_snake()
                 if not snake.snake_running:
                     game_on = False
                 if is_snake_eating:
