@@ -7,3 +7,5 @@ HEADING_VALUES = {
     "up": 90,
     "down": 270
 }
+
+FONT_STYLE = ("Courier", 16, 'bold')
